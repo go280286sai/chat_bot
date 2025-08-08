@@ -4,13 +4,17 @@ Database for chat work. Contains languages, questions, and answers.
 # pylint: disable=too-few-public-methods
 from datetime import datetime
 
-from sqlalchemy import Integer, Column, String, create_engine, DateTime, ForeignKey, Text
+from sqlalchemy import (Integer, Column, String,
+                        create_engine, DateTime, ForeignKey, Text)
 from sqlalchemy.orm import sessionmaker, DeclarativeBase
 
 engine = create_engine('sqlite:///database.db')
 
-
+# pylint: disable=unnecessary-pass
 class Base(DeclarativeBase):
+    """
+    Base class for all models.
+    """
     pass
 
 
@@ -41,8 +45,16 @@ class Question(Base):
     __tablename__ = 'questions'
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(Text, unique=True)
-    language_id = Column(Integer, ForeignKey('languages.id', ondelete='CASCADE'))
-    category_id = Column(Integer, ForeignKey('categories.id', ondelete='CASCADE'))
+    language_id = Column(Integer,
+                         ForeignKey(
+                             'languages.id',
+                             ondelete='CASCADE')
+                         )
+    category_id = Column(Integer,
+                         ForeignKey(
+                             'categories.id',
+                             ondelete='CASCADE')
+                         )
     created_at = Column(DateTime, default=datetime.utcnow)
 
 
@@ -53,8 +65,16 @@ class Answer(Base):
     __tablename__ = 'answers'
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(Text, unique=True)
-    category_id = Column(Integer, ForeignKey('categories.id', ondelete='CASCADE'))
-    language_id = Column(Integer, ForeignKey('languages.id', ondelete='CASCADE'))
+    category_id = Column(Integer,
+                         ForeignKey(
+                             'categories.id',
+                             ondelete='CASCADE')
+                         )
+    language_id = Column(Integer,
+                         ForeignKey(
+                             'languages.id',
+                             ondelete='CASCADE')
+                         )
     created_at = Column(DateTime, default=datetime.utcnow)
 
 
