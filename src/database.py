@@ -25,7 +25,7 @@ class Language(Base):
     """
     __tablename__ = 'languages'
     id = Column(Integer, primary_key=True, autoincrement=True)
-    name: Mapped[str] = mapped_column(String, nullable=False)
+    name: Mapped[str] = mapped_column(String, nullable=False, unique=True)
     created_at = Column(DateTime, default=datetime.utcnow)
 
     def __init__(self, name: str, **kwargs):
@@ -86,7 +86,10 @@ class Answer(Base):
                                              )
     created_at = Column(DateTime, default=datetime.utcnow)
 
-    def __init__(self, name: str, category_id: int, language_id: int, **kwargs):
+    def __init__(self,
+                 name: str,
+                 category_id: int,
+                 language_id: int, **kwargs):
         super().__init__(**kwargs)
         self.name = name
         self.category_id = category_id

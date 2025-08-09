@@ -4,6 +4,8 @@ Languages Database
 import logging
 from html import escape
 from sqlalchemy import select
+from sqlalchemy.exc import IntegrityError
+
 from src.database import Language, session
 
 
@@ -11,6 +13,7 @@ class LanguagesDatabase:
     """
     Languages Database
     """
+
     def __init__(self):
         self.session = session
 
@@ -26,7 +29,7 @@ class LanguagesDatabase:
             self.session.add(obj)
             self.session.commit()
             return True
-        except ValueError as e:
+        except IntegrityError as e:
             logging.error(e)
             self.session.rollback()
             return False
@@ -47,7 +50,7 @@ class LanguagesDatabase:
             obj.name = name
             self.session.commit()
             return True
-        except ValueError as e:
+        except IntegrityError as e:
             logging.error(e)
             self.session.rollback()
             return False
@@ -88,7 +91,6 @@ class LanguagesDatabase:
             }
         except ValueError as e:
             logging.error(e)
-            self.session.rollback()
             return None
 
     def get_all(self) -> list[dict] | None:
@@ -108,5 +110,4 @@ class LanguagesDatabase:
             } for p in result]
         except ValueError as e:
             logging.error(e)
-            self.session.rollback()
             return None

@@ -4,7 +4,8 @@ Operates in three languages: English, Russian, and Ukrainian.
 """
 import uvicorn
 from fastapi import FastAPI
-from src.routes import index_route
+from src.routes import (index_route, languages_route, questions_route,
+                        categories_route, answers_route)
 import logging
 
 logging.basicConfig(level=logging.INFO)
@@ -15,7 +16,11 @@ logging.basicConfig(
 )
 app = FastAPI()
 
-app.include_router(router=index_route.router, prefix="/api", tags=["api"])
+app.include_router(router=index_route.router, prefix="/api/message", tags=["message"])
+app.include_router(router=languages_route.router, prefix="/api/languages", tags=["languages"])
+app.include_router(router=categories_route.router, prefix="/api/categories", tags=["categories"])
+app.include_router(router=answers_route.router, prefix="/api/answers", tags=["answers"])
+app.include_router(router=questions_route.router, prefix="/api/questions", tags=["questions"])
 
 
 @app.get("/")

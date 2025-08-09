@@ -18,6 +18,18 @@ def test_languages_create(name):
     assert result is True
 
 
+@pytest.mark.parametrize("name", ["en", "ru", "uk"])
+def test_languages_create_false(name):
+    """
+    Test creating a language.
+    :param name:
+    :return:
+    """
+    obj = LanguagesDatabase()
+    result = obj.create(name)
+    assert result is False
+
+
 @pytest.mark.parametrize("idx, name", [(1, "en"), (2, "ru"), (3, "uk")])
 def test_languages_get_one(idx, name):
     """
@@ -42,6 +54,19 @@ def test_languages_update(idx, name):
     obj = LanguagesDatabase()
     result = obj.update(idx=idx, name=name)
     assert result is True
+
+
+@pytest.mark.parametrize("idx, name", [(2, "english"), (3, "english")])
+def test_languages_update_false(idx, name):
+    """
+    Test updating a language.
+    :param idx:
+    :param name:
+    :return:
+    """
+    obj = LanguagesDatabase()
+    result = obj.update(idx=idx, name=name)
+    assert result is False
 
 
 def test_languages_get_all():

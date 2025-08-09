@@ -4,6 +4,8 @@ Answers Database
 import logging
 from html import escape
 from sqlalchemy import select
+from sqlalchemy.exc import IntegrityError
+
 from src.database import Answer, session, Language, Category
 
 
@@ -33,7 +35,7 @@ class AnswersDatabase:
             self.session.add(obj)
             self.session.commit()
             return True
-        except ValueError as e:
+        except IntegrityError as e:
             logging.error(e)
             self.session.rollback()
             return False
@@ -63,7 +65,7 @@ class AnswersDatabase:
             obj.language_id = language_id
             self.session.commit()
             return True
-        except ValueError as e:
+        except IntegrityError as e:
             logging.error(e)
             self.session.rollback()
             return False
@@ -114,7 +116,6 @@ class AnswersDatabase:
             }
         except ValueError as e:
             logging.error(e)
-            self.session.rollback()
             return None
 
     def get_all(self) -> list[dict] | None:
@@ -144,5 +145,4 @@ class AnswersDatabase:
             } for p in result]
         except ValueError as e:
             logging.error(e)
-            self.session.rollback()
             return None

@@ -18,6 +18,18 @@ def test_categories_create(name):
     assert result is True
 
 
+@pytest.mark.parametrize("name", ["General", "Delivery", "Pay"])
+def test_categories_create_fail(name):
+    """
+    Test creating a categories.
+    :param name:
+    :return:
+    """
+    obj = CategoriesDatabase()
+    result = obj.create(name)
+    assert result is False
+
+
 @pytest.mark.parametrize("idx, name", [(1, "General"), (2, "Delivery"), (3, "Pay")])
 def test_categories_get_one(idx, name):
     """
@@ -42,6 +54,19 @@ def test_categories_update(idx, name):
     obj = CategoriesDatabase()
     result = obj.update(idx=idx, name=name)
     assert result is True
+
+
+@pytest.mark.parametrize("idx, name", [(2, "General_"), (3, "General_")])
+def test_categories_update_fail(idx, name):
+    """
+    Test updating a category.
+    :param idx:
+    :param name:
+    :return:
+    """
+    obj = CategoriesDatabase()
+    result = obj.update(idx=idx, name=name)
+    assert result is False
 
 
 def test_categories_get_all():

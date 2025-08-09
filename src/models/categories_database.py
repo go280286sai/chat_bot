@@ -4,6 +4,8 @@ Categories Database
 import logging
 from html import escape
 from sqlalchemy import select
+from sqlalchemy.exc import IntegrityError
+
 from src.database import Category, session
 
 
@@ -26,7 +28,7 @@ class CategoriesDatabase:
             self.session.add(obj)
             self.session.commit()
             return True
-        except ValueError as e:
+        except IntegrityError as e:
             logging.error(e)
             self.session.rollback()
             return False
@@ -47,7 +49,7 @@ class CategoriesDatabase:
             obj.name = name
             self.session.commit()
             return True
-        except ValueError as e:
+        except IntegrityError as e:
             logging.error(e)
             self.session.rollback()
             return False
@@ -88,7 +90,6 @@ class CategoriesDatabase:
             }
         except ValueError as e:
             logging.error(e)
-            self.session.rollback()
             return None
 
     def get_all(self) -> list[dict] | None:
@@ -108,5 +109,4 @@ class CategoriesDatabase:
             } for p in result]
         except ValueError as e:
             logging.error(e)
-            self.session.rollback()
             return None
