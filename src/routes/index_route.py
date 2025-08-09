@@ -4,7 +4,7 @@ Api router for chatbot
 from html import escape
 from fastapi import APIRouter, HTTPException
 from starlette.responses import JSONResponse
-from model_data.get_model_data import GetModelData
+from src.model_data.get_model_data import GetModelData
 
 router = APIRouter()
 

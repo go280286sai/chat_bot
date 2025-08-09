@@ -4,8 +4,15 @@ Operates in three languages: English, Russian, and Ukrainian.
 """
 import uvicorn
 from fastapi import FastAPI
-from routes import index_route
+from src.routes import index_route
+import logging
 
+logging.basicConfig(level=logging.INFO)
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    filename="logs.log", filemode='a+', datefmt='%d-%m-%y %H:%M:%S'
+)
 app = FastAPI()
 
 app.include_router(router=index_route.router, prefix="/api", tags=["api"])
