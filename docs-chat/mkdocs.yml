@@ -1,1 +1,11 @@
-site_name: My Docs
+site_name: FastAPI ChatBot
+nav:
+  - Message: message.md
+  - Languages: languages.md
+  - Categories: categories.md
+  - Answers: answers.md
+  - Questions: questions.md
+  - Demo: demo.md
+theme:
+  name: material
+copyright: Aleksandr Storchak <aleksanderbezlikiy@gmail.com>

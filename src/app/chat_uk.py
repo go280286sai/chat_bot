@@ -1,5 +1,5 @@
 """
-Chat Russian Bot
+Chat Ukrainian Bot
 """
 # pylint: disable=invalid-name
 import re
@@ -16,22 +16,22 @@ from sklearn.metrics import accuracy_score
 from helps.help_words import get_words
 
 
-class RuChatBot:
+class UkChatBot:
     """
-    Chat Russian Bot
+    Chat Ukrainian Bot
     """
 
     def __init__(self, data: list):
-        self.stop_words = get_words("russian")
-        self.morph = pymorphy3.MorphAnalyzer(lang='ru')
-        self.model_path = 'files/model_ru.pkl'
-        self.vector_path = 'files/vector_ru.pkl'
+        self.stop_words = get_words("ukraine")
+        self.morph = pymorphy3.MorphAnalyzer(lang='uk')
+        self.model_path = 'files/model_uk.pkl'
+        self.vector_path = 'files/vector_uk.pkl'
         self.model = None
         self.vector = None
 
         questions_df = pd.DataFrame(data)
         questions = questions_df[
-            questions_df['language_id'] == 3
+            questions_df['language_id'] == 2
             ].reset_index(drop=True)
         questions.drop(columns=[
             'language_id',
@@ -45,7 +45,7 @@ class RuChatBot:
 
     def build(self, data: pd.DataFrame):
         """
-        Creates a Russian Bot model and vectorizer
+        Creates model and vectorizer
         """
         self.vector = TfidfVectorizer()
         if self.vector is not None:
@@ -53,7 +53,6 @@ class RuChatBot:
         else:
             raise ValueError("Vectorizer is not initialized")
         y = data['category_id']
-
         X_train, X_test, y_train, y_test = train_test_split(
             X, y, test_size=0.2,
             random_state=0, shuffle=True
@@ -69,14 +68,14 @@ class RuChatBot:
 
         predictions = self.model.predict(X_test)
         acc = accuracy_score(y_test, predictions)
-        logging.info("Russian model accuracy: %.4f", acc)
+        logging.info("Ukrainian model accuracy: %.4f", acc)
 
         joblib.dump(self.model, self.model_path)
         joblib.dump(self.vector, self.vector_path)
 
     def clean_data(self, message: str) -> str:
         """
-        Cleans Russian Bot data
+        Cleans data
         """
         message = re.sub(r'[^\w\s]', '', message.lower())
         tokens = message.split()
@@ -88,7 +87,7 @@ class RuChatBot:
 
     def get_predict(self, message: str) -> int | None:
         """
-        Predicts Russian Bot
+        Predicts category
         """
         if self.model is None or self.vector is None:
             self.model = joblib.load(self.model_path)
@@ -100,16 +99,15 @@ class RuChatBot:
         else:
             raise ValueError("Vectorizer is not initialized")
         prediction = self.model.predict(transformed)
-
         return prediction.tolist()[0] if prediction else None
 
     def get_answer(self, data: list, predict: int) -> str | None:
         """
-        Gets Russian Bot answer
+        Gets answer
         """
         answers_df = pd.DataFrame(data)
         answers = answers_df[
-            (answers_df['language_id'] == 3) &
+            (answers_df['language_id'] == 2) &
             (answers_df['category_id'] == predict)
             ].reset_index(drop=True)
 

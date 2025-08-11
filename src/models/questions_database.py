@@ -99,7 +99,9 @@ class QuestionsDatabase:
                 select(Question.id,
                        Question.name.label("name"),
                        Language.name.label("language"),
-                       Category.name.label("category")
+                       Language.id.label("language_id"),
+                       Category.name.label("category"),
+                       Category.id.label("category_id"),
                        )
                 .join(Language, Language.id == Question.language_id)
                 .join(Category, Category.id == Question.category_id)
@@ -112,7 +114,9 @@ class QuestionsDatabase:
                 'id': idx,
                 'name': result.name,
                 'language': result.language,
-                'category': result.category
+                'language_id': result.language_id,
+                'category': result.category,
+                'category_id': result.category_id
             }
         except ValueError as e:
             logging.error(e)
@@ -128,7 +132,9 @@ class QuestionsDatabase:
                 select(Question.id.label("id"),
                        Question.name.label("name"),
                        Language.name.label("language"),
-                       Category.name.label("category")
+                       Language.id.label("language_id"),
+                       Category.name.label("category"),
+                       Category.id.label("category_id"),
                        )
                 .join(Language, Language.id == Question.language_id)
                 .join(Category, Category.id == Question.category_id)
@@ -141,7 +147,9 @@ class QuestionsDatabase:
                 'id': p.id,
                 'name': p.name,
                 'language': p.language,
-                'category': p.category
+                'language_id': p.language_id,
+                'category': p.category,
+                'category_id': p.category_id
             } for p in result]
         except ValueError as e:
             logging.error(e)

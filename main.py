@@ -5,7 +5,7 @@ Operates in three languages: English, Russian, and Ukrainian.
 import uvicorn
 from fastapi import FastAPI
 from src.routes import (index_route, languages_route, questions_route,
-                        categories_route, answers_route)
+                        categories_route, answers_route, demo_route)
 import logging
 
 logging.basicConfig(level=logging.INFO)
@@ -21,6 +21,7 @@ app.include_router(router=languages_route.router, prefix="/api/languages", tags=
 app.include_router(router=categories_route.router, prefix="/api/categories", tags=["categories"])
 app.include_router(router=answers_route.router, prefix="/api/answers", tags=["answers"])
 app.include_router(router=questions_route.router, prefix="/api/questions", tags=["questions"])
+app.include_router(router=demo_route.router, prefix="/api/demo", tags=["demo"])
 
 
 @app.get("/")
@@ -29,7 +30,7 @@ def main():
     Main function for chatbot.
     :return:
     """
-    return {"Hello": "World"}
+    return {"Status": "Ready"}
 
 
 if __name__ == "__main__":

@@ -8,7 +8,7 @@ from sqlalchemy import (Integer, Column, String,
                         create_engine, DateTime, ForeignKey, Text)
 from sqlalchemy.orm import sessionmaker, DeclarativeBase, Mapped, mapped_column
 
-engine = create_engine('sqlite:///database.db')
+engine = create_engine('sqlite:///../database.db')
 
 
 # pylint: disable=unnecessary-pass
